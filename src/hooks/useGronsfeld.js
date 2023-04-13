@@ -1,0 +1,85 @@
+import { useState } from "react"
+
+export const useGronsfeld = ( chars='', key=null ) => {
+
+    const [secretMessage, setSecretMessage] = useState('')
+
+    const inChars = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
+    let splitChars= chars.split('')
+    let splitKeys = key.split('')
+    let splitCleanKey = []
+    let lowerChar
+    let lowerKey
+    let keyPos=0
+    let textLoc
+    let keyLoc
+    let sub
+
+    const encrypt = () => {
+        let encryptedMessage = ''
+
+        for(let i=0; i<splitKeys.length; i++){
+            if (splitKeys[i] in ['1','2','3','4','5','6','7','8','9','0']){
+                splitCleanKey.push(inChars[parseInt(splitKeys[i])])
+            }
+        }
+        for(let i=0; i<splitChars.length; i++){
+            lowerChar=splitChars[i].toLowerCase()
+            lowerKey=splitCleanKey[keyPos]
+            if (inChars.indexOf(lowerChar)>-1){
+                textLoc=inChars.indexOf(lowerChar)
+                keyLoc=inChars.indexOf(lowerKey)
+                sub=inChars[(textLoc+keyLoc)%26]
+                if (lowerChar==splitChars[i]){
+                    encryptedMessage+=sub
+                }else{
+                    encryptedMessage+=sub.toUpperCase()
+                }
+                keyPos+=1
+                if (keyPos==splitCleanKey.length){
+                    keyPos=0
+                }
+            }else{
+                encryptedMessage+=splitChars[i]
+            }
+        }
+        setSecretMessage(encryptedMessage)
+    }
+
+    const decrypt = () => {
+        let decryptedMessage = ''
+
+        for(let i=0; i<splitKeys.length; i++){
+            if (splitKeys[i] in ['1','2','3','4','5','6','7','8','9','0']){
+                splitCleanKey.push(inChars[parseInt(splitKeys[i])])
+            }
+        }
+        for(let i=0; i<splitChars.length; i++){
+            lowerChar=splitChars[i].toLowerCase()
+            lowerKey=splitCleanKey[keyPos]
+            if (inChars.indexOf(lowerChar)>-1){
+                textLoc=inChars.indexOf(lowerChar)
+                keyLoc=inChars.indexOf(lowerKey)
+                sub=inChars[(26+textLoc-keyLoc)%26]
+                if (lowerChar==splitChars[i]){
+                    decryptedMessage+=sub
+                }else{
+                    decryptedMessage+=sub.toUpperCase()
+                }
+                keyPos+=1
+                if (keyPos==splitCleanKey.length){
+                    keyPos=0
+                }
+            }else{
+                decryptedMessage+=splitChars[i]
+            }
+        }
+
+        setSecretMessage(decryptedMessage)
+    }
+    return {
+        encrypt,
+        decrypt,
+        secretMessage
+    }
+}

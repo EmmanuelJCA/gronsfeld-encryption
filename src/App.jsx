@@ -1,7 +1,7 @@
 import { AppTheme } from "./theme"
 import { Form, Output } from "./components"
 import { Grid, Typography } from "@mui/material"
-import { useForm } from "./hooks"
+import { useForm, useGronsfeld } from "./hooks"
 
 const initialForm = { 
 	message: '',
@@ -10,10 +10,16 @@ const initialForm = {
 
 export const App = () => {
 	const { message, password, formState, onInputChange } = useForm(initialForm)
-
-	const handleSubmit = (event) => {
+	const { encrypt, decrypt, secretMessage } = useGronsfeld( message, password )
+	
+	const handleEncrypt = (event) => {
 		event.preventDefault()
-		console.log(formState)
+		if( message.length > 0 && password > -1) encrypt()
+	}
+
+	const handleDecrypt = (event) => {
+		event.preventDefault()
+		if( message.length > 0 && password > -1) decrypt()
 	}
 
 	return (
@@ -43,9 +49,14 @@ export const App = () => {
 						message= { message }
 						password= { password }
 						onInputChange= { onInputChange }
-						handleSubmit={ handleSubmit }
+						handleEncrypt={ handleEncrypt }
+						handleDecrypt= { handleDecrypt }
 					/>
-					<Output />
+					<Output 
+						originalMessage={ message }
+						secretKey={ password }
+						message={ secretMessage }
+					/>
 				</Grid>
 			</Grid>
 		</AppTheme>

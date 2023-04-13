@@ -1,10 +1,9 @@
-import {  Button, Grid, TextField, Typography } from "@mui/material"
-import { EnhancedEncryption } from '@mui/icons-material';
+import {  Box, Button, Grid, TextField, Typography } from "@mui/material"
+import { EnhancedEncryption, NoEncryption } from '@mui/icons-material';
 
-export const Form = ({ message, password, onInputChange, handleSubmit }) => {
+export const Form = ({ message, password, onInputChange, handleEncrypt, handleDecrypt }) => {
     return (
-        <Grid
-            item
+        <Box
             className='box-shadow'
             direction='column'
             xs={ 10 }
@@ -28,8 +27,6 @@ export const Form = ({ message, password, onInputChange, handleSubmit }) => {
                         name="message"
                         value={ message }
                         onChange={ onInputChange }
-                        // error={!!emailValid && formSubmitted}
-                        // helperText={formSubmitted && emailValid}
                         />
                 </Grid>
 
@@ -42,26 +39,33 @@ export const Form = ({ message, password, onInputChange, handleSubmit }) => {
                         name="password"
                         value={ password }
                         onChange={ onInputChange }
-                        // error={!!emailValid && formSubmitted}
-                        // helperText={formSubmitted && emailValid}
                         />
                 </Grid>
 
-                <Grid container sx={{ mb: 2, mt: 1 }}>
-                    <Grid item xs={ 12 }>
-                        <Button
-                            type="submit"
-                            variant='contained'
-                            fullWidth
-                            onSubmit={ (e) => handleSubmit(e) }
-                        >
-                            <EnhancedEncryption />
-                            <Typography sx={{ ml: 1 }}>Encriptar</Typography>
-                        </Button>
+                <Grid container spacing={ 2 } sx={{ mb: 2, mt: 1 }}>
+                        <Grid item xs={ 12 } sm={ 6 }>
+                            <Button 
+                                variant='contained' 
+                                fullWidth
+                                onClick={ handleEncrypt }
+                            >
+                                <EnhancedEncryption />
+                                <Typography sx={{ ml: 1}}>Encriptar</Typography>
+                            </Button>
+                        </Grid>
+                        <Grid item xs={ 12 } sm={ 6 }>
+                            <Button 
+                                variant='contained' 
+                                fullWidth
+                                onClick={ handleDecrypt }
+                            >
+                                <NoEncryption />
+                                <Typography sx={{ ml: 1}}>Desencriptar</Typography>
+                            </Button>
+                        </Grid>
                     </Grid>
-                </Grid>
 
             </form>
-        </Grid>
+        </Box>
     )
 }

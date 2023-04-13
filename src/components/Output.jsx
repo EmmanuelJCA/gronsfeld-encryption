@@ -1,9 +1,8 @@
 import { Box, Divider, Grid, Typography } from "@mui/material"
 
-export const Output = ({ mensaje, clave, encriptado}) => {
+export const Output = ({ originalMessage, secretKey, message}) => {
     return (
-        <Grid
-            item
+        <Box
             className='box-shadow'
             direction='column'
             justifyContent='center'
@@ -17,13 +16,13 @@ export const Output = ({ mensaje, clave, encriptado}) => {
             }}
         >
             <Grid item xs={ 12 } sx={{ mt: 2 }}>
-                <Typography variant="h6">Mensaje: Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui placeat enim nam quos odio id quod voluptatem totam molestias, voluptatibus quaerat, voluptates earum sequi sit rem explicabo animi nostrum fugiat! Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis totam aliquid ut quaerat molestias alias repellat. Numquam mollitia natus, blanditiis ipsam provident dolores! Vel numquam praesentium quisquam earum amet neque?</Typography>
+                <Typography variant="h6">Entrada: { originalMessage }</Typography>
                 <Divider />
-                <Typography variant="h6">Clave:</Typography>
+                <Typography variant="h6">Clave: { secretKey }</Typography>
                 <Divider />
-                <Typography variant="h6">Encriptado:</Typography>
+                <Typography variant="h6">Salida: { message }</Typography>
             </Grid>
 
-        </Grid>
+        </Box>
     )
 }
